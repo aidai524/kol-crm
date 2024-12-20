@@ -19,9 +19,9 @@ export function WalletConnect({ onConnect }: WalletConnectProps) {
 
   return (
     <div className="text-center">
-      <h2 className="mb-4 text-2xl font-bold">连接钱包</h2>
+      <h2 className="mb-4 text-2xl font-bold">Connect Wallet</h2>
       <p className="mb-6 text-muted-foreground">
-        请连接您的 Solana 钱包以访问数据看板
+        Please connect your Solana wallet to access the dashboard
       </p>
       <div className="flex justify-center">
         <WalletMultiButton />

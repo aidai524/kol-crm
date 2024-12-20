@@ -10,24 +10,24 @@ interface ActiveUser {
   transactions: number
 }
 
-// 模拟数据
+// Mock data
 const activeUsers: ActiveUser[] = [
   {
     id: '1',
     address: '0x1234...5678',
-    lastActive: '10分钟前',
+    lastActive: '10 mins ago',
     transactions: 12
   },
   {
     id: '2',
     address: '0x8765...4321',
-    lastActive: '25分钟前',
+    lastActive: '25 mins ago',
     transactions: 8
   },
   {
     id: '3',
     address: '0x9876...1234',
-    lastActive: '1小时前',
+    lastActive: '1 hour ago',
     transactions: 5
   }
 ]
@@ -37,16 +37,16 @@ export function ActiveUsersTable() {
     <Card className="p-6">
       <div className="flex items-center gap-2 mb-4">
         <User className="h-5 w-5 text-primary" />
-        <h2 className="text-xl font-semibold">活跃用户</h2>
+        <h2 className="text-xl font-semibold">Active Users</h2>
       </div>
       
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead>
             <tr className="text-left border-b">
-              <th className="pb-2 text-sm font-medium text-muted-foreground">用户</th>
-              <th className="pb-2 text-sm font-medium text-muted-foreground">最后活跃</th>
-              <th className="pb-2 text-sm font-medium text-muted-foreground">交易数</th>
+              <th className="pb-2 text-sm font-medium text-muted-foreground">User</th>
+              <th className="pb-2 text-sm font-medium text-muted-foreground">Last Active</th>
+              <th className="pb-2 text-sm font-medium text-muted-foreground">Transactions</th>
             </tr>
           </thead>
           <tbody>

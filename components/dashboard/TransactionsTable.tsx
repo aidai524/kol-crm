@@ -11,7 +11,7 @@ interface Transaction {
   user: string
 }
 
-// 模拟数据
+// Mock data
 const transactions: Transaction[] = [
   {
     id: '1',
@@ -29,24 +29,24 @@ const transactions: Transaction[] = [
     price: 101.2,
     user: '0x8765...4321'
   },
-  // 添加更多模拟数据...
+  // Add more mock data...
 ]
 
 export function TransactionsTable() {
   return (
     <Card className="overflow-hidden">
       <div className="p-6">
-        <h2 className="text-xl font-semibold">最近交易</h2>
+        <h2 className="text-xl font-semibold">Recent Transactions</h2>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-muted/50">
             <tr className="text-left">
-              <th className="p-4 text-sm font-medium text-muted-foreground">时间</th>
-              <th className="p-4 text-sm font-medium text-muted-foreground">类型</th>
-              <th className="p-4 text-sm font-medium text-muted-foreground">数量</th>
-              <th className="p-4 text-sm font-medium text-muted-foreground">价格</th>
-              <th className="p-4 text-sm font-medium text-muted-foreground">用户</th>
+              <th className="p-4 text-sm font-medium text-muted-foreground">Time</th>
+              <th className="p-4 text-sm font-medium text-muted-foreground">Type</th>
+              <th className="p-4 text-sm font-medium text-muted-foreground">Amount</th>
+              <th className="p-4 text-sm font-medium text-muted-foreground">Price</th>
+              <th className="p-4 text-sm font-medium text-muted-foreground">User</th>
             </tr>
           </thead>
           <tbody>
@@ -55,7 +55,7 @@ export function TransactionsTable() {
                 <td className="p-4">{tx.date}</td>
                 <td className="p-4">
                   <span className={tx.type === 'buy' ? 'text-green-600' : 'text-red-600'}>
-                    {tx.type === 'buy' ? '买入' : '卖出'}
+                    {tx.type === 'buy' ? 'Buy' : 'Sell'}
                   </span>
                 </td>
                 <td className="p-4">{tx.amount} SOL</td>

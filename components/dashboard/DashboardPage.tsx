@@ -7,7 +7,9 @@ import { StatsCards } from './StatsCards'
 import { TransactionsTable } from './TransactionsTable'
 import { RewardsCard } from './RewardsCard'
 import { ActiveUsersTable } from './ActiveUsersTable'
+import { InviteLink } from './InviteLink'
 import { useWalletStatus } from '@/hooks/useWalletStatus'
+import { ChartSection } from './ChartSection'
 
 export function DashboardPage() {
   const { isConnected, isReady } = useWalletStatus()
@@ -46,10 +48,15 @@ export function DashboardPage() {
       
       <div className="grid gap-6 md:grid-cols-2">
         <RewardsCard />
-        <ActiveUsersTable />
+        <InviteLink />
       </div>
       
-      <TransactionsTable />
+      <ChartSection />
+      
+      <div className="grid gap-6 md:grid-cols-2">
+        <ActiveUsersTable />
+        <TransactionsTable />
+      </div>
     </div>
   )
 } 

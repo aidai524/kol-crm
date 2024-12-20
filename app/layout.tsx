@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { WalletProvider } from '@/components/providers/WalletProvider'
+import { Footer } from '@/components/layout/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,9 +20,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <WalletProvider>
-          <main className="min-h-screen bg-background">
-            {children}
-          </main>
+          <div className="min-h-screen flex flex-col">
+            <main className="flex-1 container mx-auto px-4 py-6">
+              {children}
+            </main>
+            <Footer />
+          </div>
         </WalletProvider>
       </body>
     </html>
