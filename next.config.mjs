@@ -21,6 +21,7 @@ const nextConfig = {
       },
     ];
   },
+  transpilePackages: ['crypto-js'],
   webpack: (config) => {
     // config.ignoreWarnings = [
     //   { module: /node_modules\/@solana\/web3\.js/ },
