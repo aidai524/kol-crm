@@ -15,5 +15,5 @@ export const innerApiPrefix = (url: string) => {
     process.env.NODE_ENV === "development"
       ? location.origin
       : process.env.NEXT_PUBLIC_API_URL;
-  return host + "/api/v1/" + url;
+  return host + "/api/v1" + url;
 };
