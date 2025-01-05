@@ -1,4 +1,4 @@
-import { getToken } from "@/services/auth";
+import { getToken, setToken } from "@/services/auth";
 
 interface RequestOptions<T> extends RequestInit {
   body?: RequestInit["body"] | any;
@@ -88,6 +88,10 @@ export default async function request<T>(
 
     return data as T;
   } catch (err) {
+    if (err instanceof Response && err.status === 401) {
+      setToken(undefined);
+      return Promise.reject(err);
+    }
     console.error(err);
     if (retryCount > 0) {
       console.log(`Retrying... attempts left: ${retryCount}`);

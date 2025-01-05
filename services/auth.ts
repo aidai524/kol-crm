@@ -9,11 +9,13 @@ export const authService = {
   async auth() {
     if (!window.solanaWallet) return;
     const token = getToken();
+    console.log("token", token);
     if (token) return token;
     try {
       const time = Date.now();
       const msg = `login FlipN,time:${time}`;
       const encodeMsg = new TextEncoder().encode(msg);
+      console.log("encodeMsg", encodeMsg);
       const signature = await window.solanaWallet.signMessage!(encodeMsg);
       const signatureBase64 = await bufferToBase64(signature);
       const { data } = await request<WrapperResponse<string>>(
