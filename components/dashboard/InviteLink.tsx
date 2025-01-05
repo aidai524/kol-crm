@@ -1,35 +1,29 @@
-'use client'
+"use client";
 
-import { Card } from '@/components/ui/card'
-import { useWallet } from '@solana/wallet-adapter-react'
-import { Copy, Link } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { Card } from "@/components/ui/card";
+import { useWalletStatus } from "@/hooks/useWalletStatus";
+import { Copy, Link } from "lucide-react";
+import { useState, useMemo } from "react";
 
 export function InviteLink() {
-  const { publicKey } = useWallet()
-  const [inviteCode, setInviteCode] = useState('')
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
 
-  // 根据钱包地址生成邀请码
-  useEffect(() => {
-    if (publicKey) {
-      // 使用钱包地址的前6位作为邀请码
-      const code = publicKey.toBase58().slice(0, 6)
-      setInviteCode(code)
-    }
-  }, [publicKey])
+  const { account } = useWalletStatus();
 
-  const inviteLink = `${window.location.origin}/invite/${inviteCode}`
+  const referralUrl = useMemo(
+    () => `${process.env.NEXT_PUBLIC_REFERRAL_URL}?referral=${account || ""}`,
+    [account]
+  );
 
   const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText(inviteLink)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      await navigator.clipboard.writeText(referralUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy link', err)
+      console.error("Failed to copy link", err);
     }
-  }
+  };
 
   return (
     <Card className="p-6">
@@ -39,10 +33,10 @@ export function InviteLink() {
           <h2 className="text-xl font-semibold">Invite Link</h2>
         </div>
       </div>
-      
+
       <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-md">
         <span className="flex-1 font-mono text-sm truncate">
-          {inviteLink}
+          {referralUrl || "Generating..."}
         </span>
         <button
           onClick={copyLink}
@@ -56,10 +50,11 @@ export function InviteLink() {
           )}
         </button>
       </div>
-      
+
       <p className="mt-4 text-sm text-muted-foreground">
-        Share this link with others. You'll earn rewards when they trade through your link.
+        Share this link with others. You'll earn rewards when they trade through
+        your link.
       </p>
     </Card>
-  )
-} 
+  );
+}

@@ -1,24 +1,13 @@
-import { Card } from '@/components/ui/card'
-import { 
-  Users, 
-  MousePointerClick, 
-  ArrowLeftRight,
-  Wallet
-} from 'lucide-react'
+import { Card } from "@/components/ui/card";
+import { useRequest } from "@/hooks/useHooks";
+import { referralService } from "@/services/referral";
+import { formatNumber } from "@/utils/format";
+import { Users, MousePointerClick, ArrowLeftRight, Wallet } from "lucide-react";
 
-interface StatsCardsProps {
-  data: {
-    clickCount: number
-    activeUsers: number
-    transactionCount: number
-    totalVolume: {
-      sol: number
-      usd: number
-    }
-  }
-}
+export function StatsCards() {
+  const { data } = useRequest(referralService.querySummary);
+  const { data: solPrice } = useRequest(referralService.querySolPrice);
 
-export function StatsCards({ data }: StatsCardsProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <Card className="p-6">
@@ -26,7 +15,7 @@ export function StatsCards({ data }: StatsCardsProps) {
           <MousePointerClick className="h-4 w-4 text-muted-foreground" />
           <h3 className="text-sm font-medium">Link Clicks</h3>
         </div>
-        <p className="mt-4 text-2xl font-bold">{data.clickCount}</p>
+        <p className="mt-4 text-2xl font-bold">{data?.link_clicks}</p>
       </Card>
 
       <Card className="p-6">
@@ -34,7 +23,7 @@ export function StatsCards({ data }: StatsCardsProps) {
           <Users className="h-4 w-4 text-muted-foreground" />
           <h3 className="text-sm font-medium">Active Users</h3>
         </div>
-        <p className="mt-4 text-2xl font-bold">{data.activeUsers}</p>
+        <p className="mt-4 text-2xl font-bold">{data?.invite_total}</p>
       </Card>
 
       <Card className="p-6">
@@ -42,7 +31,7 @@ export function StatsCards({ data }: StatsCardsProps) {
           <ArrowLeftRight className="h-4 w-4 text-muted-foreground" />
           <h3 className="text-sm font-medium">Transactions</h3>
         </div>
-        <p className="mt-4 text-2xl font-bold">{data.transactionCount}</p>
+        <p className="mt-4 text-2xl font-bold">{data?.transactions}</p>
       </Card>
 
       <Card className="p-6">
@@ -51,12 +40,18 @@ export function StatsCards({ data }: StatsCardsProps) {
           <h3 className="text-sm font-medium">Total Volume</h3>
         </div>
         <div className="mt-4 space-y-1">
-          <p className="text-2xl font-bold">{data.totalVolume.sol} SOL</p>
+          <p className="text-2xl font-bold">
+            {formatNumber(data?.sol_amount || 0)} SOL
+          </p>
           <p className="text-sm text-muted-foreground">
-            ≈ ${data.totalVolume.usd.toLocaleString()}
+            ≈{" "}
+            {formatNumber((data?.sol_amount || 0) * (solPrice || 0), {
+              style: "currency",
+              currency: "USD",
+            })}
           </p>
         </div>
       </Card>
     </div>
-  )
-} 
+  );
+}

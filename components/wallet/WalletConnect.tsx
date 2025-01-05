@@ -1,7 +1,7 @@
 'use client'
 
 import { useWallet } from '@solana/wallet-adapter-react'
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
+import { WalletMultiButton } from '@/lib/solana/wallet-adapter/modal'
 import { useEffect } from 'react'
 
 interface WalletConnectProps {
@@ -24,7 +24,7 @@ export function WalletConnect({ onConnect }: WalletConnectProps) {
         Please connect your Solana wallet to access the dashboard
       </p>
       <div className="flex justify-center">
-        <WalletMultiButton />
+        <WalletMultiButton className='px-10' />
       </div>
     </div>
   )

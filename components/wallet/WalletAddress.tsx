@@ -1,7 +1,7 @@
 'use client'
 
 import { useWallet } from '@solana/wallet-adapter-react'
-import { WalletMultiButton } from '@solana/wallet-adapter-react-ui'
+import { WalletMultiButton } from '@/lib/solana/wallet-adapter/modal'
 import { Copy } from 'lucide-react'
 import { useState } from 'react'
 
@@ -26,8 +26,8 @@ export function WalletAddress() {
 
   return (
     <div className="flex items-center gap-4">
-      <WalletMultiButton className="!py-0" />
-      <button
+      <WalletMultiButton className="h-11 mb-0 px-3" />
+      {/* <button
         onClick={copyAddress}
         className="flex items-center gap-2 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors rounded-md hover:bg-accent"
       >
@@ -35,10 +35,10 @@ export function WalletAddress() {
         <Copy className="h-4 w-4" />
         {copied && (
           <span className="absolute bg-popover text-popover-foreground px-2 py-1 rounded shadow-lg -mt-8 right-0">
-            已复制
+            Copied
           </span>
         )}
-      </button>
+      </button> */}
     </div>
   )
 } 

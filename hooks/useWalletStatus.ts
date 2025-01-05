@@ -1,18 +1,34 @@
-import { useWallet } from '@solana/wallet-adapter-react'
+import { useConnection, useWallet } from '@solana/wallet-adapter-react'
 import { useEffect, useState } from 'react'
 
+declare global {
+  interface Window {
+    solanaWallet?: ReturnType<typeof useWalletStatus>;
+  }
+}
+
 export function useWalletStatus() {
-  const { connected, publicKey } = useWallet()
+  const { connection } = useConnection();
+  const walletHooks = useWallet();
   const [isReady, setIsReady] = useState(false)
 
   useEffect(() => {
-    // 等待钱包状态初始化
     setIsReady(true)
   }, [])
 
+  useEffect(() => {
+    window.solanaWallet={
+      ...walletHooks,
+      connection,
+      isReady,
+      account:walletHooks.publicKey?.toBase58(),
+    }
+  }, [walletHooks, connection, isReady])
+
   return {
-    isConnected: connected,
-    publicKey: publicKey?.toBase58(),
+    ...walletHooks,
+    connection,
     isReady,
+    account:walletHooks.publicKey?.toBase58(),
   }
 } 
