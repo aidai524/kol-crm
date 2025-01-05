@@ -1,40 +1,40 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { WalletConnect } from '../wallet/WalletConnect'
-import { WalletAddress } from '../wallet/WalletAddress'
-import { StatsCards } from './StatsCards'
-import { TransactionsTable } from './TransactionsTable'
-import { RewardsCard } from './RewardsCard'
-import { ActiveUsersTable } from './ActiveUsersTable'
-import { InviteLink } from './InviteLink'
-import { useWalletStatus } from '@/hooks/useWalletStatus'
-import { ChartSection } from './ChartSection'
+import { useEffect, useState } from "react";
+import { WalletConnect } from "../wallet/WalletConnect";
+import { WalletAddress } from "../wallet/WalletAddress";
+import { StatsCards } from "./StatsCards";
+import { TransactionsTable } from "./TransactionsTable";
+import { RewardsCard } from "./RewardsCard";
+import { ActiveUsersTable } from "./ActiveUsersTable";
+import { InviteLink } from "./InviteLink";
+import { useWalletStatus } from "@/hooks/useWalletStatus";
+import { ChartSection } from "./ChartSection";
+import { authService } from "@/services/auth";
+import { useRequest } from "@/hooks/useHooks";
 
 export function DashboardPage() {
-  const { isConnected, isReady } = useWalletStatus()
+  const { connected, account, isReady } = useWalletStatus();
 
-  // 模拟数据
-  const statsData = {
-    clickCount: 1234,
-    activeUsers: 89,
-    transactionCount: 456,
-    totalVolume: {
-      sol: 789.12,
-      usd: 23456.78
-    }
+  const { data: token, loading } = useRequest(authService.auth, {
+    refreshDeps: [account, connected],
+    before: () => !!(account && connected),
+  });
+
+  if (!isReady || loading) {
+    return (
+      <div className="flex min-h-[80vh] items-center justify-center">
+        loading...
+      </div>
+    );
   }
 
-  if (!isReady) {
-    return null // 或显示加载状态
-  }
-
-  if (!isConnected) {
+  if (!connected || !token) {
     return (
       <div className="flex min-h-[80vh] items-center justify-center">
         <WalletConnect onConnect={() => {}} />
       </div>
-    )
+    );
   }
 
   return (
@@ -43,20 +43,20 @@ export function DashboardPage() {
         <h1 className="text-3xl font-bold">KOL Dashboard</h1>
         <WalletAddress />
       </div>
-      
-      <StatsCards data={statsData} />
-      
+
+      <StatsCards />
+
       <div className="grid gap-6 md:grid-cols-2">
         <RewardsCard />
         <InviteLink />
       </div>
-      
+
       <ChartSection />
-      
+
       <div className="grid gap-6 md:grid-cols-2">
         <ActiveUsersTable />
         <TransactionsTable />
       </div>
     </div>
-  )
-} 
+  );
+}
