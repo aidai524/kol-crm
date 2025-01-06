@@ -23,10 +23,11 @@ const nextConfig = {
   },
   transpilePackages: ['crypto-js'],
   webpack: (config) => {
-    // config.ignoreWarnings = [
-    //   { module: /node_modules\/@solana\/web3\.js/ },
-    //   { message: /Critical dependency: the request of a dependency is an expression/ }
-    // ];
+    config.ignoreWarnings = [
+      { module: /node_modules\/@solana\/web3\.js/ },
+      { module: /node_modules\/@okxconnect\/ui/ },
+      { message: /Critical dependency: the request of a dependency is an expression/ }
+    ];
     //https://docs.reown.com/appkit/next/core/installation#extra-configuration
     config.externals.push("pino-pretty", "lokijs", "encoding");
     return config;

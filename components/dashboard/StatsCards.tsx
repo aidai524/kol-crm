@@ -21,7 +21,7 @@ export function StatsCards() {
       <Card className="p-6">
         <div className="flex items-center gap-2">
           <Users className="h-4 w-4 text-muted-foreground" />
-          <h3 className="text-sm font-medium">Active Users</h3>
+          <h3 className="text-sm font-medium">Invited Users</h3>
         </div>
         <p className="mt-4 text-2xl font-bold">{data?.invite_total}</p>
       </Card>
