@@ -48,6 +48,18 @@ interface QueryRecentTransactionsResponse {
 }
 
 export const referralService = {
+  async queryReferralLink() {
+    const account = window.solanaWallet?.account;
+    const { data } = await request<WrapperResponse<string>>(
+      generateUrl(innerApiPrefix("/airdrop/referral/account/code"), { account })
+    );
+
+    const link = generateUrl(`${process.env.NEXT_PUBLIC_REFERRAL_URL}`, {
+      referral: account,
+      airdrop: data,
+    });
+    return link;
+  },
   async querySolPrice() {
     const { data } = await request<WrapperResponse<{ SolPrice: number }>>(
       innerApiPrefix("/config")
@@ -75,12 +87,14 @@ export const referralService = {
   async queryTrend(type: "invited" | "transactions" | "volume") {
     const url = type === "invited" ? "invited/account" : type;
     const { data } = await request<
-      WrapperResponse<{
-        date: string;
-        invite_count?: number;
-        trade_count?: number;
-        sol_amount?: number;
-      }[]>
+      WrapperResponse<
+        {
+          date: string;
+          invite_count?: number;
+          trade_count?: number;
+          sol_amount?: number;
+        }[]
+      >
     >(generateUrl(innerApiPrefix(`/referral/trend/${url}`), { day: 7 }));
     const result = data?.map((item) => ({
       date: dayjs(item.date).format("MM-DD"),
