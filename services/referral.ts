@@ -50,13 +50,13 @@ interface QueryRecentTransactionsResponse {
 export const referralService = {
   async queryReferralLink() {
     const account = window.solanaWallet?.account;
-    const { data } = await request<WrapperResponse<string>>(
-      generateUrl(innerApiPrefix("/airdrop/referral/account/code"), { account })
-    );
+    // const { data } = await request<WrapperResponse<string>>(
+    //   generateUrl(innerApiPrefix("/airdrop/referral/account/code"), { account })
+    // );
 
     const link = generateUrl(`${process.env.NEXT_PUBLIC_REFERRAL_URL}`, {
       referral: account,
-      airdrop: data,
+      // airdrop: data,
     });
     return link;
   },
