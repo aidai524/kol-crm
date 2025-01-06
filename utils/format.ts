@@ -1,3 +1,4 @@
+
 import { generateUrl } from '.';
 
 export function formatSortAddress(address: string | undefined) {
@@ -31,6 +32,44 @@ export function formatSortAddress(address: string | undefined) {
 export function formatNumber(val: string | number | undefined, options?: Intl.NumberFormatOptions) {
   if (val === undefined) return '';
   return new Intl.NumberFormat('en-US', options).format(Number(val));
+}
+
+const subscriptNumbers = [
+  '₀',
+  '₁',
+  '₂',
+  '₃',
+  '₄',
+  '₅',
+  '₆',
+  '₇',
+  '₈',
+  '₉',
+  '₁₀',
+  '₁₁',
+  '₁₂',
+  '₁₃',
+  '₁₄',
+  '₁₅',
+  '₁₆',
+  '₁₇',
+  '₁₈',
+  '₁₉',
+  '₂₀',
+];
+
+export function formatNumberWithSubscript(value: string | number): string {
+  const strVal = value.toString();
+  const parts = strVal.split('.');
+  if (parts.length <= 1) return strVal;
+
+  const leadingZeros = parts[1].match(/^0+/)?.[0]?.length || 0;
+  if (leadingZeros > 3 && leadingZeros <= 20) {
+    const remainingDigits = parts[1].slice(leadingZeros);
+    const subscriptNumber = subscriptNumbers[leadingZeros];
+    parts[1] = '0' + subscriptNumber + remainingDigits;
+  }
+  return parts.join('.');
 }
 
 const explorerUrls = {

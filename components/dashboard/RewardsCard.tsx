@@ -65,7 +65,19 @@ export function RewardsCard() {
               <div className="flex justify-between items-center">
                 <span className="text-sm text-muted-foreground">Amount</span>
                 <span className="font-medium">
-                  {formatNumber(lastTx.token_amount || 0)} {lastTx.name}
+                  <span
+                    className={
+                      lastTx.type === "buy"
+                        ? "text-green-600 mr-1"
+                        : "text-red-600 mr-1"
+                    }
+                  >
+                    {lastTx.type === "buy" ? "Buy" : "Sell"}
+                  </span>
+                  {formatNumber(lastTx.token_amount || 0, {
+                    maximumFractionDigits: 0,
+                  })}{" "}
+                  <span className="text-gray-400">{lastTx.token_symbol}</span>
                 </span>
               </div>
               <div className="flex justify-between items-center">
@@ -80,6 +92,7 @@ export function RewardsCard() {
                 </span>
                 <a
                   href={formatExplorerUrl(lastTx?.tx_hash)}
+                  target="_blank"
                   className="flex items-center gap-1 text-sm text-primary hover:underline"
                 >
                   {formatSortAddress(lastTx?.tx_hash)}

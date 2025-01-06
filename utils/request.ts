@@ -87,9 +87,10 @@ export default async function request<T>(
     }
 
     return data as T;
-  } catch (err) {
-    if (err instanceof Response && err.status === 401) {
+  } catch (err:any) {
+    if (err.message=="Unauthorized") {
       setToken(undefined);
+      alert(`Authentication expired, please refresh the page and login again`);
       return Promise.reject(err);
     }
     console.error(err);
