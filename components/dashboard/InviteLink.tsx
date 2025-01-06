@@ -1,23 +1,21 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
+import { useRequest } from "@/hooks/useHooks";
 import { useWalletStatus } from "@/hooks/useWalletStatus";
+import { referralService } from "@/services/referral";
 import { Copy, Link } from "lucide-react";
 import { useState, useMemo } from "react";
 
 export function InviteLink() {
   const [copied, setCopied] = useState(false);
 
-  const { account } = useWalletStatus();
-
-  const referralUrl = useMemo(
-    () => `${process.env.NEXT_PUBLIC_REFERRAL_URL}?referral=${account || ""}`,
-    [account]
-  );
+  const { data: link } = useRequest(referralService.queryReferralLink);
 
   const copyLink = async () => {
     try {
-      await navigator.clipboard.writeText(referralUrl);
+      if (!link) return;
+      await navigator.clipboard.writeText(link);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -36,7 +34,7 @@ export function InviteLink() {
 
       <div className="flex items-center gap-2 p-3 bg-muted/50 rounded-md">
         <span className="flex-1 font-mono text-sm truncate">
-          {referralUrl || "Generating..."}
+          {link || "Generating..."}
         </span>
         <button
           onClick={copyLink}
