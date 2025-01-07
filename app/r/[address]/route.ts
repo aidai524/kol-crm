@@ -9,14 +9,27 @@ export async function GET(
 
   if (address) {
     try {
-      fetch(`${request.headers.get("origin")}/api/report`, {
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/report/data`;
+      console.log("url:", url, address);
+      fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "content-type": "application/json",
+          "cache-control": "no-cache, no-store, must-revalidate",
+          "pragma": "no-cache",
+          "expires": "0"
         },
+        cache: "no-store",
         body: JSON.stringify({
-          address,
+          list: [
+            {
+              t: 1,
+              v: address,
+            },
+          ],
         }),
+      }).then(res => res.json()).then(data => {
+        console.log("data:", data);
       });
     } catch (error) {
       console.error("report data error:", error);
