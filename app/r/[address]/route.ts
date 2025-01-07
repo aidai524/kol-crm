@@ -14,11 +14,10 @@ export async function GET(
     });
     if (address) {
       console.log("address", address);
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/report/data`, {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/report/data`, {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
-          'accept': 'application/json'
         },
         body: JSON.stringify({
           list: [
@@ -28,6 +27,10 @@ export async function GET(
             },
           ],
         }),
+      }).then((res) => {
+        console.log("report data res", res.json());
+      }).catch((error) => {
+        console.error("Fetch error:", error);
       });
     }
 
