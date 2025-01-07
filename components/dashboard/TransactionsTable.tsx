@@ -40,7 +40,7 @@ export function TransactionsTable() {
                 Referral Fee (SOL)
               </th>
               <th className="pb-2 text-sm font-medium text-muted-foreground">
-                User
+                Tx
               </th>
             </tr>
           </thead>
@@ -78,11 +78,11 @@ export function TransactionsTable() {
                   </td>
                   <td className="py-3 font-mono">
                     <a
-                      href={formatExplorerUrl(tx.tx_hash, "account")}
+                      href={formatExplorerUrl(tx.tx_hash)}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {formatSortAddress(tx.address)}
+                      {formatSortAddress(tx.tx_hash)}
                     </a>
                   </td>
                 </tr>
