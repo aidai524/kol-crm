@@ -36,12 +36,14 @@ export const authService = {
 };
 
 export function getToken() {
+  if(typeof window === "undefined") return;
   const account = window.solanaWallet?.account;
   if (!account) return;
   return authStore?.get(account);
 }
 
 export function setToken(token?: string) {
+  if(typeof window === "undefined") return;
   const account = window.solanaWallet?.account;
   if (!account) return;
   authStore?.set(account, token);

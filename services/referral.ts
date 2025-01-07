@@ -57,14 +57,10 @@ const MAX_LIMIT = 1000;
 export const referralService = {
   async queryReferralLink() {
     const account = window.solanaWallet?.account;
-    // const { data } = await request<WrapperResponse<string>>(
-    //   generateUrl(innerApiPrefix("/airdrop/referral/account/code"), { account })
-    // );
+    if (!account) return;
 
-    const link = generateUrl(`${process.env.NEXT_PUBLIC_REFERRAL_URL}`, {
-      referral: account,
-      // airdrop: data,
-    });
+    const link = `${window.location.origin}/r/${account}`;
+
     return link;
   },
   async querySolPrice() {
@@ -134,6 +130,7 @@ export const referralService = {
         item.trade_count ??
         (item.sol_amount ?? 0) / 10 ** SOL_DECIMALS,
     }));
+
     if (!result?.length) {
       const res = Array.from({ length: 7 }, (_, index) => ({
         date: dayjs().subtract(index, "day").format("MM-DD"),
