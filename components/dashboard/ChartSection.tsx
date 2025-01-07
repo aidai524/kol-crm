@@ -84,6 +84,10 @@ export function ChartSection() {
                 tickLine={false}
                 axisLine={false}
                 tickFormatter={(value) => metricConfigs[type].formatter(value)}
+                {...(type !== "volume" && {
+                  allowDecimals: false,
+                  domain: [0, "auto"],
+                })}
               />
               <Tooltip
                 content={({ active, payload }) => {

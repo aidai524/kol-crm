@@ -9,15 +9,16 @@ import { referralService } from "@/services/referral";
 import {
   formatExplorerUrl,
   formatNumber,
+  formatNumberWithSubscript,
   formatSortAddress,
 } from "@/utils/format";
 import dayjs from "@/utils/dayjs";
 import { Loading } from "../ui/Loading";
+import Big from "big.js";
 
 export function RewardsCard() {
   const [showTxDetails, setShowTxDetails] = useState(false);
   const { data: totalRewards } = useRequest(referralService.querySummary);
-  const { data: solPrice } = useRequest(referralService.querySolPrice);
   const { data: lastTx, loading: lastTxLoading } = useRequest(
     async () => {
       const res = await referralService.queryRecentTransactions(0, 1);
@@ -42,10 +43,12 @@ export function RewardsCard() {
         <div className="flex justify-between items-center">
           <span className="text-muted-foreground">Total Rewards</span>
           <span className="font-bold">
-            {formatNumber((totalRewards?.referral_fee || 0) * (solPrice || 0), {
-              currency: "USD",
-              style: "currency",
-            })}
+            {new Big(totalRewards?.referral_fee || 0).lt(1)
+              ? formatNumberWithSubscript(totalRewards?.referral_fee || 0)
+              : formatNumber((totalRewards?.referral_fee || 0), {
+                  maximumFractionDigits: 6,
+                })}{" "}
+            SOL
           </span>
         </div>
       </div>

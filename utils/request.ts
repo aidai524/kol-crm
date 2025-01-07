@@ -14,6 +14,8 @@ const cache = new Map<string, { timestamp: number; data: any }>();
 
 const defaultCacheTimeout = 3000;
 
+let isRefreshing = false;
+
 export default async function request<T>(
   url: string,
   options?: RequestOptions<T>
@@ -25,10 +27,12 @@ export default async function request<T>(
 
   const cacheTimeout = options?.cacheTimeout || defaultCacheTimeout;
 
-  const headers = JSON.parse(JSON.stringify({
-    ...defaultHeaders,
-    ...options?.headers,
-  }));
+  const headers = JSON.parse(
+    JSON.stringify({
+      ...defaultHeaders,
+      ...options?.headers,
+    })
+  );
 
   let body = options?.body;
   if (
@@ -87,13 +91,17 @@ export default async function request<T>(
     }
 
     return data as T;
-  } catch (err:any) {
-    if (err.message=="Unauthorized") {
+  } catch (err: any) {
+    console.log(err.message);
+    if (err.message == "Unauthorized") {
       setToken(undefined);
-      alert(`Authentication expired, please refresh the page and login again`);
-      return Promise.reject(err);
+      if (!isRefreshing && typeof window !== "undefined") {
+        alert("Authentication expired, please login again");
+        isRefreshing = true;
+        window.location.reload();
+      }
+      throw err;
     }
-    console.error(err);
     if (retryCount > 0) {
       console.log(`Retrying... attempts left: ${retryCount}`);
       return request(url, { ...options, retryCount: retryCount - 1 });
@@ -110,6 +118,6 @@ export default async function request<T>(
         });
       }
     }
-    return Promise.reject(err);
+    throw err;
   }
 }
