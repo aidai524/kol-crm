@@ -1,6 +1,5 @@
 import { NextRequest } from "next/server";
 import { generateUrl } from "@/utils";
-import request from "@/utils/request";
 
 
 export async function GET(
@@ -13,20 +12,22 @@ export async function GET(
     const redirectUrl = generateUrl(`${process.env.NEXT_PUBLIC_REFERRAL_URL}`, {
       referral: address,
     });
-
     if (address) {
-      request(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/report/data`, {
+      console.log("address", address);
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/report/data`, {
         method: "POST",
-        body: {
+        headers: {
+          'Content-Type': 'application/json',
+          'accept': 'application/json'
+        },
+        body: JSON.stringify({
           list: [
             {
               t: 1,
               v: address,
             },
           ],
-        },
-      }).catch((err) => {
-        console.log(err);
+        }),
       });
     }
 

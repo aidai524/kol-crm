@@ -39,11 +39,11 @@ export function ActiveUsersTable() {
                 <tr key={user.id} className="border-b last:border-0">
                   <td className="py-3 font-mono">
                     <a
-                      href={formatExplorerUrl(user.referral_account, "account")}
+                      href={formatExplorerUrl(user.address, "account")}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      {formatSortAddress(user.referral_account)}
+                      {formatSortAddress(user.address)}
                     </a>
                   </td>
                   <td className="py-3 text-muted-foreground">
