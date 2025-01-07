@@ -73,6 +73,17 @@ export default async function request<T>(
       signal: controller.signal,
     }).finally(() => clearTimeout(timeoutId));
 
+    const status = res.status;
+    if (status === 401) {
+      setToken(undefined);
+      if (!isRefreshing && typeof window !== "undefined") {
+        alert("Authentication expired, please login again");
+        isRefreshing = true;
+        window.location.reload();
+      }
+      throw new Error("Unauthorized");
+    }
+
     if (!res.ok) throw new Error(res.statusText);
     const data = await res.json();
 
@@ -93,13 +104,7 @@ export default async function request<T>(
     return data as T;
   } catch (err: any) {
     console.log(err.message);
-    if (err.message == "Unauthorized") {
-      setToken(undefined);
-      if (!isRefreshing && typeof window !== "undefined") {
-        alert("Authentication expired, please login again");
-        isRefreshing = true;
-        window.location.reload();
-      }
+    if (err.message === "Unauthorized") {
       throw err;
     }
     if (retryCount > 0) {
