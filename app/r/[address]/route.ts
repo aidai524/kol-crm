@@ -13,25 +13,37 @@ export async function GET(
       referral: address,
     });
     if (address) {
-      console.log("address", address);
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/report/data`, {
-        method: "POST",
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          list: [
-            {
-              t: 1,
-              v: address,
-            },
-          ],
-        }),
-      }).then((res) => {
-        console.log("report data res", res.json());
-      }).catch((error) => {
-        console.error("Fetch error:", error);
-      });
+      try {
+        console.log("start report data...");
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/v1/report/data`, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            list: [
+              {
+                t: 1,
+                v: address,
+              },
+            ],
+          }),
+        });
+        
+        // check response status
+        if (!response.ok) {
+          console.error("report data failed:", response.status, response.statusText);
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log("report data response:", data);
+        
+        // ensure wait a short time for request to complete
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } catch (error) {
+        console.error("report data error:", error);
+      }
     }
 
     return new Response(null, {
