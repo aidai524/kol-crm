@@ -10,16 +10,28 @@ import { ActiveUsersTable } from "./ActiveUsersTable";
 import { InviteLink } from "./InviteLink";
 import { useWalletStatus } from "@/hooks/useWalletStatus";
 import { ChartSection } from "./ChartSection";
-import { authService } from "@/services/auth";
-import { useRequest } from "@/hooks/useHooks";
+import { authService, getToken } from "@/services/auth";
+import { useDebouncedEffect, useRequest } from "@/hooks/useHooks";
+import { Button } from "../ui/button";
 
 export function DashboardPage() {
   const { connected, account, isReady } = useWalletStatus();
+  const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState<string | undefined>(undefined);
 
-  const { data: token, loading } = useRequest(authService.auth, {
-    refreshDeps: [account, connected],
-    before: () => !!(account && connected),
-  });
+  useDebouncedEffect(() => {
+    const token = getToken();
+    console.log("token", getToken());
+    if (token) {
+      setToken(token);
+    }
+  }, [account]);
+
+  async function handleLogin() {
+    setLoading(true);
+    const token = await authService.auth().finally(() => setLoading(false));
+    setToken(token);
+  }
 
   if (!isReady || loading) {
     return (
@@ -29,10 +41,18 @@ export function DashboardPage() {
     );
   }
 
-  if (!connected || !token) {
+  if (!connected) {
     return (
       <div className="flex min-h-[80vh] items-center justify-center">
         <WalletConnect onConnect={() => {}} />
+      </div>
+    );
+  }
+
+  if (!token) {
+    return (
+      <div className="flex min-h-[80vh] items-center justify-center">
+        <Button onClick={handleLogin}>Sign in</Button>
       </div>
     );
   }

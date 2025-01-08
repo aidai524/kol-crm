@@ -1,9 +1,7 @@
 import { generateUrl, storageStore } from "@/utils";
 import { innerApiPrefix, request, WrapperResponse } from ".";
 
-const authStore = storageStore("auth", {
-  storage: typeof window !== "undefined" ? sessionStorage : undefined,
-});
+const authStore = storageStore("auth");
 
 export const authService = {
   async auth() {
@@ -39,7 +37,7 @@ export function getToken() {
   if(typeof window === "undefined") return;
   const account = window.solanaWallet?.account;
   if (!account) return;
-  return authStore?.get(account);
+  return authStore?.get<string>(account);
 }
 
 export function setToken(token?: string) {
