@@ -126,6 +126,7 @@ export class OkxWalletUIAdapter extends BaseMessageSignerWalletAdapter {
           theme: 'SYSTEM',
         },
       });
+      if (!this._universalUi) throw new WalletNotReadyError();
 
       this._provider = new OKXSolanaProvider(this._universalUi);
 
