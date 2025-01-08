@@ -11,13 +11,13 @@ export async function GET(
     try {
       const url = `${process.env.NEXT_PUBLIC_API_URL}/api/v1/report/data`;
       console.log("url:", url, address);
-      fetch(url, {
+      const res = await fetch(url, {
         method: "POST",
         headers: {
           "content-type": "application/json",
           "cache-control": "no-cache, no-store, must-revalidate",
-          "pragma": "no-cache",
-          "expires": "0"
+          pragma: "no-cache",
+          expires: "0",
         },
         cache: "no-store",
         body: JSON.stringify({
@@ -28,9 +28,9 @@ export async function GET(
             },
           ],
         }),
-      }).then(res => res.json()).then(data => {
-        console.log("data:", data);
       });
+      const data = await res.json();
+      console.log("report data:", data);
     } catch (error) {
       console.error("report data error:", error);
     }
