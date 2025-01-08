@@ -1,4 +1,4 @@
-import { getToken, setToken } from "@/services/auth";
+import { useAuthStore } from "@/stores/auth";
 
 interface RequestOptions<T> extends RequestInit {
   body?: RequestInit["body"] | any;
@@ -22,7 +22,7 @@ export default async function request<T>(
 ): Promise<T> {
   const defaultHeaders = {
     "Content-Type": "application/json",
-    Authorization: getToken() || undefined,
+    Authorization: useAuthStore.getState().token || undefined,
   };
 
   const cacheTimeout = options?.cacheTimeout || defaultCacheTimeout;
@@ -75,7 +75,7 @@ export default async function request<T>(
 
     const status = res.status;
     if (status === 401) {
-      setToken(undefined);
+      useAuthStore.getState().setToken(undefined);
       if (!isRefreshing && typeof window !== "undefined") {
         alert("Authentication expired, please login again");
         isRefreshing = true;

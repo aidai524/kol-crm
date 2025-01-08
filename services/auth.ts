@@ -1,19 +1,17 @@
-import { generateUrl, storageStore } from "@/utils";
+import { generateUrl } from "@/utils";
 import { innerApiPrefix, request, WrapperResponse } from ".";
-
-const authStore = storageStore("auth");
+import { useAuthStore } from "@/stores/auth";
 
 export const authService = {
   async auth() {
     if (!window.solanaWallet) return;
-    const token = getToken();
-    console.log("token", token);
+    const token = useAuthStore.getState().token;
     if (token) return token;
+    
     try {
       const time = Date.now();
       const msg = `login FlipN,time:${time}`;
       const encodeMsg = new TextEncoder().encode(msg);
-      console.log("encodeMsg", encodeMsg);
       const signature = await window.solanaWallet.signMessage!(encodeMsg);
       const signatureBase64 = await bufferToBase64(signature);
       const { data } = await request<WrapperResponse<string>>(
@@ -23,29 +21,15 @@ export const authService = {
           time,
         })
       );
-      setToken(data);
+      useAuthStore.getState().setToken(data);
       return data;
     } catch (error) {
       console.error(error);
-      setToken(undefined);
+      useAuthStore.getState().setToken(undefined);
       return;
-    }
+    } 
   },
 };
-
-export function getToken() {
-  if(typeof window === "undefined") return;
-  const account = window.solanaWallet?.account;
-  if (!account) return;
-  return authStore?.get<string>(account);
-}
-
-export function setToken(token?: string) {
-  if(typeof window === "undefined") return;
-  const account = window.solanaWallet?.account;
-  if (!account) return;
-  authStore?.set(account, token);
-}
 
 async function bufferToBase64(buffer: Uint8Array) {
   const base64url: any = await new Promise((r) => {

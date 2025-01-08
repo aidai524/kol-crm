@@ -12,15 +12,15 @@ import { useWalletStatus } from "@/hooks/useWalletStatus";
 import { ChartSection } from "./ChartSection";
 import { authService } from "@/services/auth";
 import { useRequest } from "@/hooks/useHooks";
-import { getDeviceType } from "@/utils";
+import { useAuthStore } from "@/stores/auth";
 
 export function DashboardPage() {
   const { connected, account, isReady } = useWalletStatus();
+  const { token } = useAuthStore();
 
-  const { data: token, loading } = useRequest(authService.auth, {
-    refreshDeps: [account, connected],
-    before: () => !!(account && connected),
-    debounceOptions: getDeviceType().mobile ? 3000 : 0,
+  const { loading } = useRequest(authService.auth, {
+    refreshDeps: [account, connected, token],
+    before: () => !!(account && connected) && !token,
   });
 
   if (!isReady || loading) {
