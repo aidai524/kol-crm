@@ -13,6 +13,7 @@ export const authService = {
       const msg = `login FlipN,time:${time}`;
       const encodeMsg = new TextEncoder().encode(msg);
       const signature = await window.solanaWallet.signMessage!(encodeMsg);
+      alert(signature.length);
       const signatureBase64 = await bufferToBase64(signature);
       const { data } = await request<WrapperResponse<string>>(
         generateUrl(innerApiPrefix("/account/token"), {
