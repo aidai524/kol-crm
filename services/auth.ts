@@ -7,7 +7,7 @@ export const authService = {
     if (!window.solanaWallet) return;
     const token = useAuthStore.getState().token;
     if (token) return token;
-    
+    console.log("authenticating...");
     try {
       const time = Date.now();
       const msg = `login FlipN,time:${time}`;

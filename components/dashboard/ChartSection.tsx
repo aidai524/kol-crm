@@ -42,14 +42,14 @@ export function ChartSection() {
 
   return (
     <Card className="p-6">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-2">
         <h2 className="text-xl font-semibold">Trend Analysis</h2>
         <div className="flex gap-2">
           {(Object.keys(metricConfigs) as ChartMetric[]).map((key) => (
             <button
               key={key}
               onClick={() => setType(key)}
-              className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
+              className={`px-3 py-1.5 text-sm max-sm:text-xs rounded-md transition-colors ${
                 type === key
                   ? "bg-primary text-primary-foreground"
                   : "hover:bg-muted"

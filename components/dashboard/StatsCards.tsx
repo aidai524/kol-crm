@@ -9,41 +9,41 @@ export function StatsCards() {
   const { data: solPrice } = useRequest(referralService.querySolPrice);
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      <Card className="p-6">
+    <div className="grid gap-3 sm:gap-4 grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
+      <Card className="p-4 sm:p-6">
         <div className="flex items-center gap-2">
           <MousePointerClick className="h-4 w-4 text-muted-foreground" />
-          <h3 className="text-sm font-medium">Link Clicks</h3>
+          <h3 className="text-xs sm:text-sm font-medium">Link Clicks</h3>
         </div>
-        <p className="mt-4 text-2xl font-bold">{data?.link_clicks}</p>
+        <p className="mt-2 sm:mt-4 text-xl sm:text-2xl font-bold">{data?.link_clicks}</p>
       </Card>
 
-      <Card className="p-6">
+      <Card className="p-4 sm:p-6">
         <div className="flex items-center gap-2">
           <Users className="h-4 w-4 text-muted-foreground" />
-          <h3 className="text-sm font-medium">Invited Users</h3>
+          <h3 className="text-xs sm:text-sm font-medium">Invited Users</h3>
         </div>
-        <p className="mt-4 text-2xl font-bold">{data?.invite_total}</p>
+        <p className="mt-2 sm:mt-4 text-xl sm:text-2xl font-bold">{data?.invite_total}</p>
       </Card>
 
-      <Card className="p-6">
+      <Card className="p-4 sm:p-6">
         <div className="flex items-center gap-2">
           <ArrowLeftRight className="h-4 w-4 text-muted-foreground" />
-          <h3 className="text-sm font-medium">Transactions</h3>
+          <h3 className="text-xs sm:text-sm font-medium">Transactions</h3>
         </div>
-        <p className="mt-4 text-2xl font-bold">{data?.transactions}</p>
+        <p className="mt-2 sm:mt-4 text-xl sm:text-2xl font-bold">{data?.transactions}</p>
       </Card>
 
-      <Card className="p-6">
+      <Card className="p-4 sm:p-6">
         <div className="flex items-center gap-2">
           <Wallet className="h-4 w-4 text-muted-foreground" />
-          <h3 className="text-sm font-medium">Total Volume</h3>
+          <h3 className="text-xs sm:text-sm font-medium">Total Volume</h3>
         </div>
-        <div className="mt-4 space-y-1">
-          <p className="text-2xl font-bold">
+        <div className="mt-2 sm:mt-4 space-y-1">
+          <p className="text-xl sm:text-2xl font-bold">
             {formatNumber(data?.sol_amount || 0)} SOL
           </p>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm sm:text-base text-muted-foreground">
             ≈{" "}
             {formatNumber((data?.sol_amount || 0) * (solPrice || 0), {
               style: "currency",

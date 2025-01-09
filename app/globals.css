@@ -56,6 +56,24 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  
+  /* 移动端容器padding调整 */
+  .container {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* 移动端文字大小调整 */
+  h1 {
+    @apply text-2xl sm:text-3xl;
+  }
+  
+  h2 {
+    @apply text-xl sm:text-2xl;
+  }
+  
+  h3 {
+    @apply text-lg sm:text-xl;
+  }
 }
 
 @layer components {

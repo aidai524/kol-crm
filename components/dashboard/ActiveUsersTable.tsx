@@ -18,17 +18,17 @@ export function ActiveUsersTable() {
         <h2 className="text-xl font-semibold">Active Users</h2>
       </div>
 
-      <div className="overflow-auto max-h-[500px]">
+      <div className="overflow-auto max-h-[500px] text-sm max-sm:text-xs">
         <table className="w-full">
           <thead>
             <tr className="text-left border-b">
-              <th className="pb-2 text-sm font-medium text-muted-foreground">
+              <th className="pb-2 font-medium text-muted-foreground">
                 User
               </th>
-              <th className="pb-2 text-sm font-medium text-muted-foreground">
+              <th className="pb-2 font-medium text-muted-foreground">
                 Last Active
               </th>
-              <th className="pb-2 text-sm font-medium text-muted-foreground">
+              <th className="pb-2 font-medium text-muted-foreground">
                 Transactions
               </th>
             </tr>

@@ -20,26 +20,26 @@ export function TransactionsTable() {
       <div className="flex items-center gap-2 mb-4">
         <h2 className="text-xl font-semibold">Recent Transactions</h2>
       </div>
-      <div className="overflow-auto max-h-[500px]">
+      <div className="overflow-auto max-h-[500px] text-sm max-sm:text-xs">
         <table className="w-full">
           <thead>
             <tr className="text-left border-b">
-              <th className="pb-2 text-sm font-medium text-muted-foreground">
+              <th className="pb-2 font-medium text-muted-foreground">
                 Time
               </th>
-              <th className="pb-2 text-sm font-medium text-muted-foreground">
+              <th className="pb-2 font-medium text-muted-foreground">
                 Type
               </th>
-              <th className="pb-2 text-sm font-medium text-muted-foreground">
+              <th className="pb-2 font-medium text-muted-foreground">
                 Amount
               </th>
-              <th className="pb-2 text-sm font-medium text-muted-foreground">
+              <th className="pb-2 font-medium text-muted-foreground">
                 Price (SOL)
               </th>
-              <th className="pb-2 text-sm font-medium text-muted-foreground">
+              <th className="pb-2 font-medium text-muted-foreground">
                 Referral Fee (SOL)
               </th>
-              <th className="pb-2 text-sm font-medium text-muted-foreground">
+              <th className="pb-2 font-medium text-muted-foreground">
                 Tx
               </th>
             </tr>

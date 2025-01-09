@@ -5,13 +5,20 @@ const authStorage = storageStore("auth");
 
 interface AuthState {
   token: string | undefined;
-  setToken: (token: string | undefined) => void;
+  setToken: (token: string | undefined, address?: string) => void;
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
-  token: authStorage?.get("token") || undefined,
-  setToken: (token) => {
-    authStorage?.set("token", token);
+  token: undefined,
+  setToken: (token, address) => {
+    if (address) {
+      authStorage?.set(`token:${address}`, token);
+    }
     set({ token });
   },
 }));
+
+export const getAddressToken = (address?: string) => {
+  if (!address) return undefined;
+  return authStorage?.get<string>(`token:${address}`);
+};

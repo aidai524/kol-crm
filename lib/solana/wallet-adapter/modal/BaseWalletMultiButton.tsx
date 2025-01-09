@@ -119,6 +119,7 @@ export function BaseWalletMultiButton({ children, labels, ...props }: Props) {
             className="wallet-adapter-dropdown-list-item"
             onClick={() => {
               onDisconnect();
+              localStorage.removeItem('walletName');
               setMenuOpen(false);
             }}
             role="menuitem"
