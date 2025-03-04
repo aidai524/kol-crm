@@ -63,6 +63,12 @@ export const referralService = {
 
     return link;
   },
+  async queryReferralCodes() {
+    const { data } = await request<WrapperResponse<{ code: string,being_invited_account_id:string; }[]>>(
+      innerApiPrefix("/airdrop/code")
+    );
+    return data;
+  },
   async querySolPrice() {
     const { data } = await request<WrapperResponse<{ SolPrice: number }>>(
       innerApiPrefix("/config")

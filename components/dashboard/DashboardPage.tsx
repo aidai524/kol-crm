@@ -13,6 +13,7 @@ import { ChartSection } from "./ChartSection";
 import { authService } from "@/services/auth";
 import { useRequest } from "@/hooks/useHooks";
 import { useAuthStore, getAddressToken } from "@/stores/auth";
+import { InviteCodes } from "./InviteCodes";
 
 export function DashboardPage() {
   const { connected, account, isReady } = useWalletStatus();
@@ -60,7 +61,7 @@ export function DashboardPage() {
 
       <div className="grid gap-4 sm:gap-6 grid-cols-2 max-sm:grid-cols-1">
         <RewardsCard />
-        <InviteLink />
+        <InviteCodes />
       </div>
 
       <ChartSection />
